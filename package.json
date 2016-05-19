@@ -1,0 +1,11 @@
+{
+  "main": "main.js",
+  "name": "easel-e",
+  "scripts": {
+    "start": "electron main.js"
+  },
+  "version": "0.0.1",
+  "devDependencies": {
+    "electron-prebuilt": "^1.0.1"
+  }
+}
