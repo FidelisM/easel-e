@@ -3,13 +3,122 @@
   <head>
     <meta charset="UTF-8">
     <title>Easel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css">
+    <style>
+      /* set the bottom most layers to fill the space */
+      html, body {
+        width: 100%;
+        height: 100%;
+      }
+      /**
+       *  make the background very-light-grey, so we can
+       *  easly see the easel
+       */
+      body {
+        background-color: #eee;
+      }
+    </style>
+    <script type="text/javascript">
+
+      /**
+       * A Drawing Layer for the user.
+       *
+       * This Object consists of an HTML5 canvas element
+       * which will allow the user to interact with our application
+       * and draw/edit whatever images they would like.
+       */
+      function DrawingLayer(height, width, color) {
+        this._height = parseInt(height);
+        this._width = parseInt(width);
+        this._layer = document.createElement('canvas');
+        this._layer.style.position = "absolute";
+        this._layer.style.height = this._height + "px";
+        this._layer.style.width = this._width + "px";
+
+        // We will statically set this to white for now,
+        // but in the future we should plan to have the user select
+        // a color/transparent/etc.
+        this._layer.style.backgroundColor = color || "#FFFFFF"
+
+        return this;
+      }
+
+      DrawingLayer.prototype.hide = function () {
+        this._layer.style.display = "none";
+        return this;
+      }
+
+      DrawingLayer.prototype.show = function () {
+        this._layer.style.display = "block";
+        return this;
+      }
+
+      /**
+       * Center the DrawingLayer relative to the parent element that
+       * is passed to the function invocation.
+       *
+       * @param  {DOMElement} element that this._layer will be centered, relative to.
+       * @return {DrawingLayer}        this
+       */
+      DrawingLayer.prototype.center = function (element) {
+        let width = parseInt(element.style.width) || element.clientWidth;
+        let height = parseInt(element.style.height) || element.clientHeight;
+
+        let centerX = width/2;
+        let centerY = height/2;
+
+        this._layer.style.left = (centerX - this._width/2) + "px";
+        this._layer.style.top = (centerY - this._height/2) + "px"
+
+        return this;
+      }
+
+      /**
+       * Append the DrawingLayer's inner _layer DOM element property to the DOM element invoked as an argument of the function.
+       * The {DOMElement} element (arg1) will become the parent element of this._layer.
+       *
+       * @param  {DOMElement} element the element that this._layer will be appended to
+       * @return {DrawingLayer}         this
+       */
+      DrawingLayer.prototype.appendTo = function (element) {
+        element.appendChild(this._layer);
+        return this;
+      }
+
+      /**
+       * The main function that will get called when the
+       * document is finished loading...
+       * @param  {event} event DOMContentLoaded event
+       * @return {null}
+       */
+      function main(event) {
+        // save a reference to the
+        // bottom layer of the application.
+        let body = document.body;
+        let layer = new DrawingLayer(300, 400);
+
+        // center the layer inside of
+        // it's parent element.
+        layer
+          .center(body)
+          .appendTo(body);
+
+        window.onresize = (e) => layer.center(body);
+
+      }
+
+      document.addEventListener("DOMContentLoaded", main);
+
+
+    </script>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using node <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+    <!-- A simple not for debug purposes... -->
+    <div style="position:absolute;font-size:6pt;">
+      Nodejs Version: <script>document.write(process.versions.node)</script><br>
+      Electron Version: <script>document.write(process.versions.electron)</script><br>
+      Chromium Version: <script>document.write(process.versions.chrome)</script><br>
+    </div>
   </body>
 
   <script>
