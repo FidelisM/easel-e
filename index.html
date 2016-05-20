@@ -43,11 +43,19 @@
         return this;
       }
 
+      /**
+       * Hide the DrawingLayer's canvas element.
+       * @return {DrawingLayer}
+       */
       DrawingLayer.prototype.hide = function () {
         this._layer.style.display = "none";
         return this;
       }
 
+      /**
+       * Show the DrawingLayer's canvas element.
+       * @return {DrawingLayer}
+       */
       DrawingLayer.prototype.show = function () {
         this._layer.style.display = "block";
         return this;
@@ -108,7 +116,6 @@
       }
 
       document.addEventListener("DOMContentLoaded", main);
-
 
     </script>
   </head>
