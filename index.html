@@ -19,9 +19,10 @@
       }
     </style>
     <script type="text/javascript">
-      const Toolkit = require('./lib/Toolkit');
+      const ToolKit = require('./lib/ToolKit');
       const DrawingLayer = require('./lib/DrawingLayer');
 
+      const TOOLKIT_WIDTH = 100;
       /**
        * The main function that will get called when the
        * document is finished loading...
@@ -29,19 +30,29 @@
        * @return {null}
        */
       function main(event) {
+
         // save a reference to the
         // bottom layer of the application.
         let body = document.body;
         let layer = new DrawingLayer(300, 400, '#FFFFFF');
+        let toolkit = new ToolKit(TOOLKIT_WIDTH, body.clientHeight);
+
+
+        toolkit
+          .appendTo(body);
 
         // center the layer relative
         // to the body of the application.
         // and then append the layer to the body.
         layer
-          .center(body)
+          .center(body, toolkit.width)
           .appendTo(body);
 
-        window.onresize = (e) => layer.center(body);
+
+        window.onresize = (e) => {
+          layer.center(body, toolkit.width);
+          toolkit.resize(TOOLKIT_WIDTH, body.clientHeight);
+        }
 
       }
 
@@ -51,7 +62,7 @@
   </head>
   <body>
     <!-- A simple not for debug purposes... -->
-    <div style="position:absolute;font-size:6pt;">
+    <div style="position:absolute;right:0;font-size:6pt;">
       Nodejs Version: <script>document.write(process.versions.node)</script><br>
       Electron Version: <script>document.write(process.versions.electron)</script><br>
       Chromium Version: <script>document.write(process.versions.chrome)</script><br>
