@@ -10,6 +10,7 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
+  // http://electron.atom.io/docs/api/browser-window/
   mainWindow = new BrowserWindow({
   	'min-width': 600,
   	'min-height': 420,
