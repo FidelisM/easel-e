@@ -20,6 +20,7 @@
     </style>
     <script type="text/javascript">
       const ToolKit = require('./lib/ToolKit');
+      const PaintBrush = require('./tools/PaintBrush');
       const DrawingLayer = require('./lib/DrawingLayer');
 
       const TOOLKIT_WIDTH = 100;
@@ -37,9 +38,15 @@
         let layer = new DrawingLayer(300, 400, '#FFFFFF');
         let toolkit = new ToolKit(TOOLKIT_WIDTH, body.clientHeight);
 
+        let paintbrush1 = new PaintBrush();
+        let paintbrush2 = new PaintBrush();
+        let paintbrush3 = new PaintBrush();
 
         toolkit
-          .appendTo(body);
+          .appendTo(body)
+          .addTool(paintbrush1)
+          .addTool(paintbrush2)
+          .addTool(paintbrush3)
 
         // center the layer relative
         // to the body of the application.
