@@ -12,16 +12,40 @@
  * can modify their brush and get the correct type of effect applied
  * to the layer they are looking to work with.
  */
-
 const Icon = require('./Icon');
+const ToolExtend = require('../lib/ToolExtend');
 
 function PaintBrush(width) {
-  // The type should be super private and non modifiable.
-  this._type = 'tool';
+  ToolExtend.call(this, 'paintbrush');
 
-  this.icon = Icon('paintbrush');
-  this._width = width;
+  Object.defineProperty(this, "width", {
+    get: () => width,
+    configurable: false,
+    enumerable: false
+  });
+
+  let icon = Icon('fa-paint-brush');
+  Object.defineProperty(this, "icon", {
+    get: () => icon,
+    configurable: false,
+    enumerable: false
+  });
 }
+
+/**
+ * On pickup describes the event, when a tool is picked up.
+ * We can eventually add functionality, for more than when the tool
+ * is clicked, but for now we only want to pickup a tool when it is clicked.
+ * Again, I can't stress the case for trying to keep this super simple
+ * at first and then add more and more functionality as soon as we
+ * get a minimal viable product.
+ * @param  {Function} fn function to run when the tool is "picked up" or clicked...
+ * @return {Tool}      returns the Tool after for chaining.
+ */
+// PaintBrush.prototype.onPickup = function (fn) {
+//   this.icon.onclick = fn.bind(this);
+//   return this;
+// };
 
 module.exports = PaintBrush;
 
