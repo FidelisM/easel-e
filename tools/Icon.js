@@ -8,6 +8,7 @@ function Icon(faClassName) {
   icon.appendChild(faIcon);
 
   icon.classList.add('tool-icon');
+  icon.classList.add('selectable');
   icon.style.width = ICON_WIDTH;
   icon.style.height = ICON_HEIGHT;
   icon.style.backgroundColor = '#CCCCCC';
