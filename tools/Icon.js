@@ -15,6 +15,9 @@ function Icon(faClassName) {
   icon.style.position = 'relative';
   icon.style.marginBottom = '1px';
   icon.style.borderBottom = '1px solid #AAAAAA';
+  icon.style.webkitTransition = 'background-color 1s';
+  icon.style.transition = 'background-color 1s';
+  icon.style.boxSizing = 'border-box';
 
   faIcon.classList.add('fa');
   faIcon.classList.add(faClassName);

@@ -18,13 +18,23 @@
       body {
         background-color: #eee;
       }
+
+      .selected {
+        -webkit-transition: background-color 1s;
+        transition: background-color 1s;
+      }
     </style>
     <script type="text/javascript">
+      const Immutable = require('immutable');
+
+      const App = require('./App');
+
       const ToolKit = require('./lib/ToolKit');
       const PaintBrush = require('./tools/PaintBrush');
+
+      const LayerStack = require('./lib/LayerStack');
       const DrawingLayer = require('./lib/DrawingLayer');
 
-      const TOOLKIT_WIDTH = 30;
       /**
        * The main function that will get called when the
        * document is finished loading...
@@ -32,12 +42,14 @@
        * @return {null}
        */
       function main(event) {
-
         // save a reference to the
         // bottom layer of the application.
-        let body = document.body;
-        let layer = new DrawingLayer(300, 400, '#FFFFFF');
-        let toolkit = new ToolKit(TOOLKIT_WIDTH, body.clientHeight);
+        let app = new App(document.body);
+
+        let toolkit = new ToolKit(32, app.height);
+        let layer1 = new DrawingLayer(300, 400, '#FFFFFF');
+
+        let layerStack = new LayerStack(app.width - toolkit.width, app.height);
 
         // Testing tool icons for now we only have PaintBrush tool..
         let paintbrush1 = new PaintBrush();
@@ -45,7 +57,7 @@
         let paintbrush3 = new PaintBrush();
 
         toolkit
-          .appendTo(body)
+          .appendTo(app.body)
           .addTool(paintbrush1)
           .addTool(paintbrush2)
           .addTool(paintbrush3);
@@ -53,14 +65,18 @@
         // center the layer relative
         // to the body of the application.
         // and then append the layer to the body.
-        layer
-          .center(body, toolkit.width)
-          .appendTo(body);
+        // layer1
+        //   .center(body, toolkit.width)
+        //   .appendTo(body);
 
+        layerStack
+          .appendTo(app.body)
+          .addLayer(layer1);
 
         window.onresize = (e) => {
-          layer.center(body, toolkit.width);
-          toolkit.resize(body.clientHeight);
+          app.resize(e);
+          layerStack.resize(app.width - toolkit.width, app.height);
+          toolkit.resize(null, app.height);
         }
 
       }
