@@ -14,22 +14,14 @@
  */
 const Icon = require('./Icon');
 const ToolExtend = require('../lib/ToolExtend');
+const DOMExtendCommon = require('../lib/DOMExtendCommon');
 
 function PaintBrush(width) {
+  Object.defineProperty(this, "width", { get: () => width, configurable: false, enumerable: false });
   ToolExtend.call(this, 'paintbrush');
 
-  Object.defineProperty(this, "width", {
-    get: () => width,
-    configurable: false,
-    enumerable: false
-  });
-
   let icon = Icon('fa-paint-brush');
-  Object.defineProperty(this, "icon", {
-    get: () => icon,
-    configurable: false,
-    enumerable: false
-  });
+  DOMExtendCommon.call(this, icon);
 }
 
 /**

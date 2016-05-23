@@ -39,6 +39,7 @@
         let layer = new DrawingLayer(300, 400, '#FFFFFF');
         let toolkit = new ToolKit(TOOLKIT_WIDTH, body.clientHeight);
 
+        // Testing tool icons for now we only have PaintBrush tool..
         let paintbrush1 = new PaintBrush();
         let paintbrush2 = new PaintBrush();
         let paintbrush3 = new PaintBrush();
@@ -48,10 +49,6 @@
           .addTool(paintbrush1)
           .addTool(paintbrush2)
           .addTool(paintbrush3);
-
-        paintbrush1.onPickup = function (e) {
-          console.log(this._name, e);
-        };
 
         // center the layer relative
         // to the body of the application.
