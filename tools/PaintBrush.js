@@ -25,19 +25,19 @@ function PaintBrush(width) {
 }
 
 /**
- * On pickup describes the event, when a tool is picked up.
- * We can eventually add functionality, for more than when the tool
- * is clicked, but for now we only want to pickup a tool when it is clicked.
- * Again, I can't stress the case for trying to keep this super simple
- * at first and then add more and more functionality as soon as we
- * get a minimal viable product.
- * @param  {Function} fn function to run when the tool is "picked up" or clicked...
- * @return {Tool}      returns the Tool after for chaining.
+ * The bind function should be overridden by every
+ * tool. The function binds its routines/what to do with the Canvas context
+ * when it is the selected tool. The binding occurs, every time a layer changes
+ * or every time the tool changes.
+ *
+ * @param  {DrawingLayer} context the DrawingLayer that the tool will act on
+ * @return {Tool}         this Tool for chaining
  */
-// PaintBrush.prototype.onPickup = function (fn) {
-//   this.icon.onclick = fn.bind(this);
-//   return this;
-// };
+PaintBrush.prototype.bind = function (drawingLayer) {
+  let context = drawingLayer.ctx;
+
+  return this;
+}
 
 module.exports = PaintBrush;
 

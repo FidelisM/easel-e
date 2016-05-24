@@ -9,6 +9,7 @@
     "electron-prebuilt": "^1.0.1"
   },
   "dependencies": {
+    "fbemitter": "^2.0.2",
     "immutable": "^3.8.1"
   }
 }
