@@ -3,6 +3,7 @@ Open Source - Electron - Painting/Photo Editor application
 
 
 ## dev install - getting started
-```npm install 
+`
+npm install 
 npm start
-```
+`
