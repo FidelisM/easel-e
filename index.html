@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <title>Easel</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link href="./node_modules/normalize-css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="./node_modules/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
     <style>
       /* set the bottom most layers to fill the space */
       html, body {
@@ -56,13 +56,13 @@
         let paintbrush3 = new PaintBrush();
 
         layerStack.onChange(function (activeLayer, lastLayer) {
-          console.log(activeLayer, lastLayer);
+          // console.log(activeLayer, lastLayer);
           // toolKit.currentTool.unbind(lastLayer);
           // toolKit.currentTool.bind(activeLayer);
         });
 
         toolKit.onChange(function (newTool, lastTool) {
-          console.log(newTool.selected, lastTool ? lastTool.selected : lastTool);
+          // console.log(newTool.selected, lastTool ? lastTool.selected : lastTool);
           // lastTool.unbind(layerStack.activeLayer);
           // newTool.bindTo(layerStack.activeLayer);
         });
