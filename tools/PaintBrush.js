@@ -105,34 +105,5 @@ PaintBrush.prototype.events = function () {
   ];
 };
 
-/**
- * The bind function should be overridden by every
- * tool. The function binds its routines/what to do with the Canvas context
- * when it is the selected tool. The binding occurs, every time a layer changes
- * or every time the tool changes.
- *
- * @param  {DrawingLayer} context the DrawingLayer that the tool will act on
- * @return {Tool}         this Tool for chaining
- */
-PaintBrush.prototype.bind = function (layerStack) {
-  let {node, ctx} = layerStack.activeLayer;
-  this.events().forEach((e) => node.addEventListener(e[0], e[1].bind(ctx)));
-  return this;
-}
-
-/**
- * The unbind function should remove all the eventListeners that
- * were previously registered to the canvas layer and then reset the
- * brush back to it's default settings which is undefined.
- * @param  {DrawingLayer} drawingLayer the drawingLayer which to apply the changes
- * @return {PaintBrush}              the current PaintBrush being referred to
- */
-PaintBrush.prototype.unbind = function (layerStack) {
-  let {node, ctx} = layerStack.activeLayer;
-  this.events().forEach((e) => node.removeEventListener(e[0], e[1].bind(ctx)));
-  brush.reset();
-  return this;
-}
-
 module.exports = PaintBrush;
 
