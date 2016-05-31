@@ -61,10 +61,16 @@
           // toolKit.currentTool.bind(activeLayer);
         });
 
+        /**
+         * When the toolKit changes, we want to bind the newTool to the
+         * layer and then unbind the lastTool if there is one.
+         */
         toolKit.onChange(function (newTool, lastTool) {
-          // console.log(newTool.selected, lastTool ? lastTool.selected : lastTool);
-          // lastTool.unbind(layerStack.activeLayer);
-          // newTool.bindTo(layerStack.activeLayer);
+          newTool.bind(layerStack);
+
+          if(lastTool)
+            lastTool.unbind(layerStack);
+
         });
 
         toolKit
@@ -76,11 +82,6 @@
         layerStack
           .appendTo(app.body)
           .addLayer(layer1);
-
-
-
-
-
 
         window.onresize = (e) => {
           app.resize(e);
