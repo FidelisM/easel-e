@@ -14,7 +14,7 @@ function createWindow () {
   mainWindow = new BrowserWindow({
   	'min-width': 600,
   	'min-height': 420,
-  	width: 800,
+  	width: 1200,
   	height: 600,
   	resizable: true,
   	title: 'Easel-E'
