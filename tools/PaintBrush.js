@@ -35,9 +35,20 @@ PaintBrush.prototype.draw = function (ctx) {
   const brush = this;
 
   if (brush.mouse1down) {
+    console.log('mousedown:', brush.x, brush.y);
     ctx.fillRect(brush.x, brush.y, brush.size, brush.size); // Outer circle
   }
 };
+
+function printEvent(e) {
+  console.log('Button Info:\n\tbutton: ' + e.button +'\n\tbuttons: ' + e.buttons +
+    '\nClient:\n\tclientX: ' + e.clientX + '\n\tclientY: ' + e.clientY +
+    '\nLayer:\n\tlayerX: ' + e.layerX + '\n\tlayerY: ' + e.layerY +
+    '\nMovement:\n\tmovementX: ' + e.movementX + '\n\tmovementY: ' + e.movementY +
+    '\nOffset:\n\toffsetX: ' + e.offsetX + '\n\toffsetY: ' + e.offsetY +
+    '\nPage:\n\tpageX: ' + e.pageX + '\n\tpageY: ' + e.pageY +
+    '\nScreen:\n\tscreenX: ' +  e.screenX + '\n\tscreenY: ' + e.screenY);
+}
 
 /**
  * The different event functions for the PaintBrush
@@ -70,8 +81,6 @@ PaintBrush.prototype.events = function () {
       brush
         .setup(e)
         .draw(this);
-
-      console.log('mousedown:', brush.x, brush.y);
     }],
 
     /**
@@ -83,8 +92,7 @@ PaintBrush.prototype.events = function () {
      */
     ['mousemove', function (e) {
 
-      console.log(e);
-
+      printEvent(e);
       brush
         .setup(e)
         .draw(this);
