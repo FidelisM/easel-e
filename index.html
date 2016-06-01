@@ -43,18 +43,24 @@
       function main(event) {
         // save a reference to the
         // bottom layer of the application.
-        let app = new App(document.body);
+        let easel = new App(document.body);
 
-        let toolKit = new ToolKit(32, app.height);
+        let toolKit = new ToolKit(32, easel.height);
         let layer1 = new DrawingLayer(300, 400, '#FFFFFF');
 
-        let layerStack = new LayerStack(app.width - toolKit.width, app.height);
+        let layerStack = new LayerStack(easel.width - toolKit.width, easel.height);
 
         // Testing tool icons for now we only have PaintBrush tool..
         let paintbrush1 = new PaintBrush();
         let paintbrush2 = new PaintBrush();
         let paintbrush3 = new PaintBrush();
 
+        /*
+         * This isn't important for now, we currently
+         * don't have a way for the user to change the layer
+         * except for when the layer is added to the easel
+         * initially.
+         */
         layerStack.onChange(function (activeLayer, lastLayer) {
           // console.log(activeLayer, lastLayer);
           // toolKit.currentTool.unbind(lastLayer);
@@ -74,18 +80,18 @@
         });
 
         toolKit
-          .appendTo(app.body)
+          .appendTo(easel.body)
           .addTool(paintbrush1)
           .addTool(paintbrush2)
           .addTool(paintbrush3);
 
         layerStack
-          .appendTo(app.body)
+          .appendTo(easel.body)
           .addLayer(layer1);
 
-        window.addEventListener('resize', (e) => app.resize(e));
-        window.addEventListener('resize', (e) => layerStack.resize(app.width - toolKit.width, app.height));
-        window.addEventListener('resize', (e) => toolKit.resize(null, app.height));
+        window.addEventListener('resize', (e) => easel.resize(e));
+        window.addEventListener('resize', (e) => layerStack.resize(easel.width - toolKit.width, easel.height));
+        window.addEventListener('resize', (e) => toolKit.resize(null, easel.height));
 
       }
 

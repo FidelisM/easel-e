@@ -16,8 +16,9 @@ const Icon = require('./Icon');
 const ToolExtend = require('../lib/ToolExtend');
 const DOMExtendCommon = require('../lib/DOMExtendCommon');
 
-function PaintBrush(width) {
-  Object.defineProperty(this, 'width', { get: () => width, configurable: false, enumerable: false });
+function PaintBrush(size = 2) {
+  let _size = size;
+  Object.defineProperty(this, 'size', { get: () => _size, set: (newSize) => _size = size, configurable: true, enumerable: false });
   ToolExtend.call(this, 'paintbrush');
 
   let icon = Icon('fa-paint-brush');
@@ -26,34 +27,32 @@ function PaintBrush(width) {
   this.reset();
 }
 
-/********* some HELPer functions *********/
+// Circle derives from Shape
+PaintBrush.prototype = Object.create(ToolExtend.prototype);
+PaintBrush.prototype.constructor = PaintBrush;
 
-/**
- * Reset the paintbrush to null settings
- * and back to empty
- */
-PaintBrush.prototype.reset = function () {
-  this.x = null;
-  this.y = null;
-  this.mouse1down = false;
+PaintBrush.prototype.draw = function (ctx) {
+  const brush = this;
+
+  if (brush.mouse1down) {
+    ctx.fillRect(brush.x, brush.y, brush.size, brush.size); // Outer circle
+  }
 };
-
-/**
- * Setup the paintbrush with coordinates and mousedown switch
- * @param  {Event} e
- */
-PaintBrush.prototype.setup = function (e) {
-  this.x = e.offsetX;
-  this.y = e.offsetY;
-  this.mouse1down = e.buttons === 1
-};
-
 
 /**
  * The different event functions for the PaintBrush
  * when it is bound and unbound these will be passed through a function
  * to add/remove them from the listener.
- * @type {Array}
+ *
+ * `this` will referr to the canvasGraphics2D context inside each function
+ * from below.
+ *
+ * The Tool.bind function runs something like:
+ * 		canvas.addEventListener('event', eventFn.bind(canvas.getContext('d2')))
+ *
+ * So that the 2d context is referred to as the `this` scope.
+ *
+ * @return {Array}
  */
 PaintBrush.prototype.events = function () {
   const brush = this;
@@ -68,8 +67,11 @@ PaintBrush.prototype.events = function () {
      * the paint brush.
      */
     ['mousedown', function (e) {
-        brush.setup(e);
-        console.log('mousedown', brush.x, brush.y, brush.mouse1down, e);
+      brush
+        .setup(e)
+        .draw(this);
+
+      console.log('mousedown:', brush.x, brush.y);
     }],
 
     /**
@@ -80,10 +82,12 @@ PaintBrush.prototype.events = function () {
      * @return {[type]}   [description]
      */
     ['mousemove', function (e) {
-      brush.setup(e);
 
-      if (brush.mouse1down)
-        console.log('mousemove', brush.x, brush.y, brush.mouse1down, e);
+      console.log(e);
+
+      brush
+        .setup(e)
+        .draw(this);
     }],
 
     /**
@@ -92,16 +96,9 @@ PaintBrush.prototype.events = function () {
      * i.e. x,y,mouse1down
      * @param  {Event} e the mouse Event
      */
-    ['mouseleave', function (e) {
-      brush.setup(e);
+    ['mouseleave', brush.setup],
 
-    }],
-
-    ['mouseup', function (e) {
-      brush.setup(e);
-
-      console.log('mouseup', e);
-    }]
+    ['mouseup', brush.setup ]
   ];
 };
 
