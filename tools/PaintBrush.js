@@ -81,8 +81,6 @@ PaintBrush.prototype.events = function () {
      * @return {[type]}   [description]
      */
     ['mousemove', function (e) {
-
-      printEvent(e);
       brush
         .setup(e)
         .draw(this);
