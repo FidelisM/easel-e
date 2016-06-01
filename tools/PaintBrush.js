@@ -37,7 +37,7 @@ PaintBrush.prototype.draw = function (ctx) {
   if (brush.mouse1down) {
     ctx.beginPath();
     ctx.moveTo(brush.x, brush.y);
-    ctx.arcTo(brush.moveX, brush.moveY, brush.x, brush.y, 0);
+    ctx.lineTo(brush.moveX, brush.moveY);
     ctx.stroke();
   }
 };
