@@ -17,12 +17,12 @@ const ToolExtend = require('../lib/ToolExtend');
 const DOMExtendCommon = require('../lib/DOMExtendCommon');
 
 function PaintBrush(size = 2) {
+  let icon = Icon('fa-paint-brush');
+  DOMExtendCommon.call(this, icon);
+
   let _size = size;
   Object.defineProperty(this, 'size', { get: () => _size, set: (newSize) => _size = size, configurable: true, enumerable: false });
   ToolExtend.call(this, 'paintbrush');
-
-  let icon = Icon('fa-paint-brush');
-  DOMExtendCommon.call(this, icon);
 
   this.reset();
 }
@@ -35,8 +35,10 @@ PaintBrush.prototype.draw = function (ctx) {
   const brush = this;
 
   if (brush.mouse1down) {
-    console.log('mousedown:', brush.x, brush.y);
-    ctx.fillRect(brush.x, brush.y, brush.size, brush.size); // Outer circle
+    ctx.beginPath();
+    ctx.moveTo(brush.x, brush.y);
+    ctx.arcTo(brush.moveX, brush.moveY, brush.x, brush.y, 0);
+    ctx.stroke();
   }
 };
 
@@ -92,9 +94,9 @@ PaintBrush.prototype.events = function () {
      * i.e. x,y,mouse1down
      * @param  {Event} e the mouse Event
      */
-    ['mouseleave', brush.setup],
+    ['mouseleave', (e) => brush.setup(e)],
 
-    ['mouseup', brush.setup ]
+    ['mouseup', (e) => brush.setup(e)]
   ];
 };
 
